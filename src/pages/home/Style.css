@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.homeMainContianer {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    background-color: #202124;
+}
+
+.redLineLogo {
+    width: 80px;
+    margin-left: 100px;
+}
+
+.offersDeals {
+    color: white;
+    font-size: 40px;
+    text-align: start;
+    padding-left: 100px;
+    font-family: 'Roboto', sans-serif;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    font-weight: bold;
+}
