@@ -53,7 +53,7 @@ const AllRoutes = ({ purchase, setPurchase }) => {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/product/:id" element={<ProductDetail />} />
 
-        <Route path="/order-details/:orderId" element={<OrderDetails />} />
+        <Route path="/orders/:orderId" element={<OrderDetails />} />
 
         <Route path="/order-list" element={<OrderList/>} />
 

@@ -1,5 +1,4 @@
-import React, { useState} from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';import { Link } from 'react-router-dom';
 import { MY_ORDERS_API } from "../../config/ApiConfig";
 import './Style.css';
 
@@ -9,16 +8,19 @@ const OrderList = () => {
   const [error, setError] = useState(null);  
 
   // Hàm gọi API để lấy danh sách đơn hàng
+  useEffect(() => {
+    console.log("test")
+    fetchOrders();
+  }, []);
   const fetchOrders = async () => {
     const token = localStorage.getItem("token");
     if (!token) return;
   
-    const username = localStorage.getItem("username");
-    if (!username) return; 
+    
     
     try {
-      // Gọi API bằng axios
-      const response = await fetch(`${MY_ORDERS_API}/${username}`, {
+      // Gọi API bằng fetch
+      const response = await fetch(`${MY_ORDERS_API}}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -27,19 +29,24 @@ const OrderList = () => {
       });
 
       if (response.status === 200) {
-        setOrders(response.data); 
+        const data = await response.json();
+        console.log(data)
+        setOrders(data); 
       } else {
         setError("Lỗi khi tải danh sách đơn hàng.");
       }
     } catch (err) {
       console.error("Lỗi khi gọi API:", err); 
       setError("Đã xảy ra lỗi khi tải danh sách đơn hàng.");
-    } finally {
-      setLoading(false); 
-    }
+    } 
   };
 
- 
+  // Gọi fetchOrders khi component được render lần đầu tiên
+  if (orders.length === 0 && !loading && !error) {
+    fetchOrders(); // Gọi API nếu chưa có dữ liệu đơn hàng
+  }
+  
+
   return (
     <div className="main-content">
       <div className="order-list">
@@ -74,39 +81,4 @@ const OrderList = () => {
   );
 };
 
-export default OrderList;/*import React from 'react';
-import { Link } from 'react-router-dom';
-import './Style.css';
-
-const OrderList = () => {
-  const orders = [
-    { id: '12345', date: '01/12/2024', status: 'Đang xử lý', total: '1,200,000 VND' },
-    { id: '12346', date: '30/11/2024', status: 'Đã giao', total: '800,000 VND' },
-    { id: '12347', date: '28/11/2024', status: 'Đã giao', total: '2,000,000 VND' },
-  ];
-
-  return (
-    <div className="order-list">
-    <h2>Danh sách đơn hàng đã đặt của bạn</h2>
-    <div className="order-container">
-      {orders.map((order) => (
-        <div className="order-card" key={order.id}>
-          <div className="order-info">
-            <p><strong>Mã đơn hàng:</strong> #{order.id}</p>
-            <p><strong>Ngày đặt hàng:</strong> {order.date}</p>
-            <p><strong>Trạng thái:</strong> {order.status}</p>
-            <p><strong>Tổng giá trị:</strong> {order.total}</p>
-          </div>
-          <Link to={`/order-details/${order.id}`} className="view-details-btn">
-            Xem chi tiết
-          </Link>
-        </div>
-      ))}
-    </div>
-  </div>
-  
-  );
-};
-
-export default OrderList;*/
-
+export default OrderList;

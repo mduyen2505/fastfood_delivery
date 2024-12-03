@@ -38,12 +38,12 @@ const OrderDetails = () => {
   }, [orderId]);
 
   const {
-    ID_Order,
+    _id,
     createdAt,
-    total_price,
-    status,
-    delivery_address,
-    details = [],
+    totalPrice,
+    orderStatus,
+    shippingInfo: { address, city, state, pincode },
+    orderItems = [], // Default to empty array if no items
   } = orderDetails || {};
   return (
     <div className="main-content">
@@ -60,21 +60,21 @@ const OrderDetails = () => {
           <h2>Chi tiết Đơn hàng #{orderDetails._id}</h2>
           <div className="order-summary">
           <p>
-            <strong>Mã đơn hàng:</strong> {ID_Order}
-          </p>
-          <p>
-            <strong>Ngày tạo:</strong>{" "}
-            {new Date(createdAt).toLocaleString("vi-VN")}
-          </p>
-          <p>
-            <strong>Tổng giá trị:</strong> {total_price} VND
-          </p>
-          <p>
-            <strong>Trạng thái:</strong> {status}
-          </p>
-          <p>
-            <strong>Địa chỉ giao hàng:</strong> {delivery_address}
-          </p>
+              <strong>Mã đơn hàng:</strong> {_id}
+            </p>
+            <p>
+              <strong>Ngày tạo:</strong>{" "}
+              {new Date(createdAt).toLocaleString("vi-VN")}
+            </p>
+            <p>
+              <strong>Tổng giá trị:</strong> {totalPrice} VND
+            </p>
+            <p>
+              <strong>Trạng thái:</strong> {orderStatus}
+            </p>
+            <p>
+              <strong>Địa chỉ giao hàng:</strong> {address}, {city} {state} {pincode}
+            </p>
         </div>
 
           <h3>Danh sách sản phẩm</h3>
@@ -88,7 +88,7 @@ const OrderDetails = () => {
               </tr>
             </thead>
             <tbody>
-               {details.map((item) => (
+              {orderItems.map((item) => (
               <tr key={item.ID_Product._id}>
                 <td>{item.ID_Product.name}</td>
                 <td>{item.quantity}</td>
@@ -109,82 +109,3 @@ const OrderDetails = () => {
 };
 
 export default OrderDetails;
-
-
-
-/*import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import './Style.css';
-
-const OrderDetails = () => {
-  const { orderId } = useParams();
-  const [orderDetails, setOrderDetails] = useState(null);
-
-  useEffect(() => {
-    const fetchOrderDetails = () => {
-      const orderData = {
-        id: orderId,
-        date: '01/12/2024',
-        address: '123, Đường ABC, Quận XYZ',
-        status: 'Đang xử lý',
-        total: '1,200,000 VND',
-        items: [
-          { name: '1 gà giòn', quantity: 2, price: '200,000 VND' },
-          { name: 'combo', quantity: 1, price: '800,000 VND' },
-        ]
-      };
-      setOrderDetails(orderData);
-    };
-    fetchOrderDetails();
-  }, [orderId]);
-
-  if (!orderDetails) {
-    return <div className="loading">Đang tải...</div>;
-  }
-
-  return (
-    <div className="order-details">
-      <h2>Chi tiết Đơn hàng #{orderDetails.id}</h2>
-
-      <div className="order-summary">
-        <p><strong>Mã đơn hàng:</strong> #{orderDetails.id}</p>
-        <p><strong>Ngày đặt hàng:</strong> {orderDetails.date}</p>
-        <p><strong>Địa chỉ giao hàng:</strong> {orderDetails.address}</p>
-        <p><strong>Trạng thái:</strong> {orderDetails.status}</p>
-        <p><strong>Tổng giá trị:</strong> {orderDetails.total}</p>
-      </div>
-
-      <h3>Danh sách sản phẩm</h3>
-      <table className="order-details-table">
-        <thead>
-          <tr>
-            <th>Sản phẩm</th>
-            <th>Số lượng</th>
-            <th>Giá mỗi sản phẩm</th>
-            <th>Tổng giá trị</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orderDetails.items.map((item, index) => (
-            <tr key={index}>
-              <td>{item.name}</td>
-              <td>{item.quantity}</td>
-              <td>{item.price}</td>
-              <td>
-                {item.quantity *
-                  parseInt(item.price.replace(' VND', '').replace(',', ''), 10)}{' '}
-                VND
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <div className="order-actions">
-        <button className="cancel-order-btn">Hủy đơn hàng</button>
-      </div>
-    </div>
-  );
-};
-
-export default OrderDetails;*/
