@@ -56,7 +56,6 @@ const AllRoutes = ({ purchase, setPurchase }) => {
         <Route path="/order-details/:orderId" element={<OrderDetails />} />
 
         <Route path="/order-list" element={<OrderList/>} />
- 
 
 
 
