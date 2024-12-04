@@ -1,6 +1,6 @@
 //const API_BASE_URL = "http://localhost:3000";
 //const API_BASE_URL = "https://314d-222-253-140-4.ngrok-free.app";
-const HOST_IP = "192.168.47.200"
+const HOST_IP = "192.168.47.169"
 
 const API_BASE_URL = `http://${HOST_IP}:3000`;
 // export const WEBSOCKET_URL = `ws://localhost:8000/`;
@@ -25,4 +25,8 @@ export const PRODUCT_IMAGE_API = `${API_BASE_URL}/api/uploads`;
 
 export const CARTS_API = `${API_BASE_URL}/api/carts`;
 export const MY_ORDERS_API = `${API_BASE_URL}/api/orders/myorders`;
-export const ORDER_DETAILS_API = `${API_BASE_URL}/api/orders`; // Adjusted API endpoint
+export const ORDER_DETAILS_API = `${API_BASE_URL}/api/orders`;
+export const REVIEWS_API = `${API_BASE_URL}/api/reviews`;
+
+export const COUPONS_API = `${API_BASE_URL}/api/coupons`;
+export const COUPON_API = (id) => `${API_BASE_URL}/api/coupons/${id}`;

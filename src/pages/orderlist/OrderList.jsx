@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';import { Link } from 'react-router-dom';
 import { MY_ORDERS_API } from "../../config/ApiConfig";
 import './Style.css';
 
@@ -9,16 +8,19 @@ const OrderList = () => {
   const [error, setError] = useState(null);  
 
   // Hàm gọi API để lấy danh sách đơn hàng
+  useEffect(() => {
+    console.log("test")
+    fetchOrders();
+  }, []);
   const fetchOrders = async () => {
     const token = localStorage.getItem("token");
     if (!token) return;
   
-    const username = localStorage.getItem("username");
-    if (!username) return; 
+    
     
     try {
       // Gọi API bằng fetch
-      const response = await fetch(`${MY_ORDERS_API}/${username}`, {
+      const response = await fetch(`${MY_ORDERS_API}}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -28,6 +30,7 @@ const OrderList = () => {
 
       if (response.status === 200) {
         const data = await response.json();
+        console.log(data)
         setOrders(data); 
       } else {
         setError("Lỗi khi tải danh sách đơn hàng.");
@@ -42,6 +45,7 @@ const OrderList = () => {
   if (orders.length === 0 && !loading && !error) {
     fetchOrders(); // Gọi API nếu chưa có dữ liệu đơn hàng
   }
+  
 
   return (
     <div className="main-content">

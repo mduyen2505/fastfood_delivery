@@ -12,42 +12,49 @@ import {
   Icon,
   HStack,
   Divider,
+  Textarea
 } from "@chakra-ui/react";
-import { PRODUCTS_API, CARTS_API, IMAGE_URL } from "../../config/ApiConfig";
+import { PRODUCTS_API, CARTS_API, IMAGE_URL, REVIEWS_API } from "../../config/ApiConfig";
 import { FaStar, FaStarHalfAlt, FaRegStar, FaShoppingCart,FaUser } from "react-icons/fa";
 import "./Style.css"; // Import định dạng từ file CSS riêng
 import { toast } from "react-toastify";
 import logo from '../../assets/logo.png';
-
+import axios from "axios";
 
 const ProductDetail = () => {
   const token = localStorage.getItem("token");
   const { id } = useParams();
+  const [reviews, setReviews] = useState([]);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [newReview, setNewReview] = useState({ rating: "", comment: "" });
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(`${PRODUCTS_API}/${id}`);
-        if (!response.ok) throw new Error(`Không tìm thấy sản phẩm: ${response.status}`);
-        const data = await response.json();
+        // Fetch product data
+        const productResponse = await fetch(`${PRODUCTS_API}/${id}`);
+        if (!productResponse.ok) throw new Error(`Không tìm thấy sản phẩm: ${productResponse.status}`);
+        const productData = await productResponse.json();
+        productData.image = productData.image ? IMAGE_URL + productData.image : logo;
+        setProduct(productData);
 
-        // Đảm bảo URL hình ảnh hợp lệ
-        data.image = data.image ? IMAGE_URL + data.image : logo;
-        
-        setProduct(data);
-
-      } catch (error) {
-        console.error("Lỗi khi gọi API chi tiết sản phẩm:", error.message);
-        alert("Không thể tải dữ liệu sản phẩm. Vui lòng thử lại sau.");
+        // Fetch product reviews
+        const reviewsResponse = await axios.get(`${REVIEWS_API}/${id}`);
+        setReviews(reviewsResponse.data.data || []);
+      } catch (err) {
+        toast.error("Failed to load product or reviews.");
+        console.error(err);
       } finally {
         setLoading(false);
       }
     };
-    fetchProduct();
+
+    fetchData();
   }, [id]);
+
 
   const handleAddToCart = async () => {
     try {
@@ -124,20 +131,48 @@ const ProductDetail = () => {
     
   const renderStars = (rating) => {
     const totalStars = 5;
-    const filledStars = rating || 0; // Nếu không có rating thì mặc định là 0
+    const filledStars = Math.floor(rating || 0);
     let stars = [];
-  
     for (let i = 0; i < totalStars; i++) {
-      if (i < Math.floor(filledStars)) {
-        stars.push(<FaStar key={i} color="gold" />); // Ngôi sao đầy
-      } else if (i < Math.ceil(filledStars)) {
-        stars.push(<FaStarHalfAlt key={i} color="gold" />); // Ngôi sao nửa
+      if (i < filledStars) {
+        stars.push(<FaStar key={i} color="gold" />);
+      } else if (i < Math.ceil(rating)) {
+        stars.push(<FaStarHalfAlt key={i} color="gold" />);
       } else {
-        stars.push(<FaRegStar key={i} color="gray" />); // Ngôi sao rỗng
+        stars.push(<FaRegStar key={i} color="gray" />);
       }
     }
     return stars;
   };
+
+  const submitReview = async () => {
+    if (!token) {
+      toast.error("You must be logged in to submit a review.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const reviewResponse = await axios.post(
+        `${REVIEWS_API}`,
+        { product_id: id, ...newReview },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setReviews((prev) => [...prev, reviewResponse.data.data]); // Add the new review to the list
+      setNewReview({ rating: "", comment: "" }); // Reset review form
+      toast.success("Review submitted successfully!");
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to submit review.");
+      toast.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
 
 
   return (
@@ -187,49 +222,57 @@ const ProductDetail = () => {
         <Divider className="divider" />
       </Box>
 
-      {/* Khung đánh giá sản phẩm */}
-      <Box className="review-box">
+       {/* Khung đánh giá sản phẩm */}
+       <Box className="review-box">
         <Heading className="review-heading">Đánh giá sản phẩm</Heading>
         <Stack spacing="2">
-          {/* Đánh giá mẫu */}
-          <Box className="review-item">
-            <Flex justify="space-between" align="center">
-              <HStack spacing="2" align="center">
-                <Icon as={FaUser} boxSize={5} color="gray.500" />
-                <Text className="review-author">Nguyễn Văn A</Text>
-              </HStack>
-              <HStack spacing="1">
-                <Icon as={FaStar} />
-                <Icon as={FaStar} />
-                <Icon as={FaStar} />
-                <Icon as={FaStarHalfAlt} />
-                <Icon as={FaRegStar} />
-              </HStack>
-            </Flex>
-            <Text className="review-text">
-              Sản phẩm rất tốt, giao hàng nhanh và chất lượng như mong đợi.
-            </Text>
-          </Box>
+          {reviews.length > 0 ? (
+            reviews.map((review) => (
+              <Box className="review-item" key={review._id}>
+                <Flex justify="space-between" align="center">
+                  <HStack spacing="2" align="center">
+                    <Icon as={FaUser} boxSize={5} color="gray.500" />
+                    <Text className="review-author">{review.user_id?.name || "Anonymous"}</Text>
+                  </HStack>
+                  <HStack spacing="1">{renderStars(review.rating)}</HStack>
+                </Flex>
+                <Text className="review-text">{review.comment}</Text>
+              </Box>
+            ))
+          ) : (
+            <Text className="no-reviews">Chưa có đánh giá nào cho sản phẩm này.</Text>
+          )}
+        </Stack>
+      </Box>
 
-          {/* Đánh giá mẫu 2 */}
-          <Box className="review-item">
-            <Flex justify="space-between" align="center">
-              <HStack spacing="2" align="center">
-                <Icon as={FaUser} boxSize={5} color="gray.500" />
-                <Text className="review-author">Trần Thị B</Text>
-              </HStack>
-              <HStack spacing="1">
-                <Icon as={FaStar} />
-                <Icon as={FaStar} />
-                <Icon as={FaStar} />
-                <Icon as={FaStarHalfAlt} />
-                <Icon as={FaRegStar} />
-              </HStack>
-            </Flex>
-            <Text className="review-text">
-              Sản phẩm ổn, nhưng giao hàng hơi chậm một chút.
-            </Text>
+      {/* Add Review Section */}
+      <Box className="add-review-box">
+      <Heading fontSize ="1.2rem" textAlign="left">Thêm Đánh Giá</Heading>
+
+        <Stack gap="2">
+          <Textarea
+            value={newReview.comment}
+            onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
+            placeholder="Viết bình luận của bạn"
+          />
+          <Box className="add-review-stars">
+            {[1, 2, 3, 4, 5].map((ratingValue) => (
+              <button
+                key={ratingValue}
+                className={`star-button ${newReview.rating >= ratingValue ? "active" : ""}`}
+                onClick={() => setNewReview({ ...newReview, rating: ratingValue })}
+              >
+                <FaStar />
+              </button>
+            ))}
           </Box>
+          <Button
+            onClick={submitReview}
+            isLoading={loading}
+            isDisabled={!newReview.comment || !newReview.rating}
+          >
+            Gửi Đánh Giá
+          </Button>
         </Stack>
       </Box>
     </Box>

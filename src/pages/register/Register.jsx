@@ -71,11 +71,7 @@ const Register = () => {
     }
 };
 
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     console.log("Form Submitted!");
-//     navigate("/Menu");
-//   };
+
 
   return (
     <div className="register-container">

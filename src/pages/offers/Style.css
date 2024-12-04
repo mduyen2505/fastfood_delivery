@@ -1,8 +1,6 @@
-
-
 .offer-Body {
     width: 100%;
-    padding-top: 89px;
+    padding-top: 100px;
 }
 
 .offer-headerSection {
@@ -35,7 +33,7 @@
     justify-content: center;
     color: white;
     font-weight: 700;
-    font-size: 90px;
+    font-size: 50px;
 }
 
 .offer-cardsSection {
@@ -50,15 +48,16 @@
     display: flex;
     flex-direction: column;
     width: 80%;
-    height: 120px;
-    font-size: 55px;
+    font-size: 45px;
     font-weight: bolder;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 30px;
     letter-spacing: .01px;
+    color: red;
+    padding-top: 10px;
+    padding-bottom: 20px;
 }
-
 
 .offer-blankSpace {
     display: flex;
@@ -70,19 +69,24 @@
 
 .offer-cards-Box {
     display: flex;
-    flex-wrap: wrap;
-    width: 80%;
-    min-height: 100vh;
-    padding-bottom: 100px;
-    row-gap: 30px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    width: 100%;
+    padding: 20px 0;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .offer-box1 {
     height: 420px;
     width: 333px;
-    background-color: #202124;
+    background-color: transparent; /* Remove background color */
+    background-size: cover; /* Make the background cover the entire box */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent image tiling */
     color: white;
-    font-size: 30px;
+    font-size: 10px;
     font-weight: bold;
     display: flex;
     flex-direction: column;
@@ -93,24 +97,17 @@
     border-radius: 30px;
     margin: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-}
-
-.offer-box2 {
-    height: 420px;
-    width: 333px;
-    background-color: #E4002B;
-    color: white;
+  }
+  .offer-box1-title {
     font-size: 30px;
-    font-weight: bold;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
-    padding: 15px;
-    border-radius: 30px;
-    margin: 20px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    text-align: center;
+    color:aliceblue
+  }
+.offer-box1-text { /* description*/
+    font-size: 25px;  
+    color: white;  
+    line-height: 1.5;  
+    text-align: center;  
 }
 
 .offer-cards-button {
@@ -127,59 +124,24 @@
     cursor: pointer;
 }
 
-
-.offer-box3 {
-    height: 430px;
-    width: 330px;
-    background-color: white;
-    border-radius: 30px;
-    margin: 20px;
+.offer-box1-buttonSection {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    margin-top: 40px;
+}
 
-    .offer-box3-img {
-        width: 100%;
-        border-radius: 30px 30px 0px 0px;
-    }
+.offer-box1-link { /* nút xem chi tiết */
+    background-color: red;
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 16px;
+    padding: 5px 10px;
+}
 
-    .offer-box3-title {
-        color: red;
-        font-size: 30px;
-        font-weight: bold;
-    }
-
-    .offer-box3-text {
-        overflow: hidden;
-    }
-
-    .offer-box3-buttonSection {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        background-color: white;
-        z-index: 1;
-        height: 60px;
-        border-radius: 0px 0px 30px 30px;
-        position: relative;
-        margin-top: -18px;
-    }
-
-    .offer-box3-button {
-        padding: 10px 30px 10px 30px;
-        background-color: transparent;
-        color: black;
-        border-color: black;
-        border-radius: 25px;
-        cursor: pointer;
-    }
-
-    .offer-box3-button:hover {
-        background-color: black;
-        color: white;
-    }
-
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+.offer-box1-link:hover {
+    background-color: white;
+    color: black;
 }
 
 @media only screen and (max-width:1382px) {
@@ -187,7 +149,6 @@
         align-items: center;
         justify-content: center;
     }
-
 }
 
 @media only screen and (max-width:425px) {
@@ -196,7 +157,20 @@
     }
 
     .offer-headingSection {
-        font-size: 40px;
+        font-size: 20px;
     }
 
+    .offer-box1 {
+        height: 350px;
+        width: 280px;
+    }
+
+    .offer-box1-title {
+        font-size: 20px;
+    }
+
+    .offer-box1-text {
+        font-size: 1px; 
+        padding: 6px 15px; 
+    }
 }

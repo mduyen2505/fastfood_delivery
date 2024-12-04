@@ -3,6 +3,8 @@ import { Route, Routes } from "react-router-dom";
 
 import Menu from "../pages/menu/Menu";
 import Offer from "../pages/offers/Offer";
+import OfferDetail from "../pages/offer_detail/OfferDetail";
+
 import Landing from "../pages/landingPage/Landing";
 import Cart from "../pages/cart/Cart";
 import Login from "../pages/login/Login";
@@ -34,6 +36,7 @@ const AllRoutes = ({ purchase, setPurchase }) => {
           element={<Menu setPurchase={setPurchase} purchase={purchase} />}
         />
         <Route path="/offers" element={<Offer />} />
+        <Route path="/coupon/:id" element={<OfferDetail />} />
         <Route
           path="/cart"
           element={<Cart purchase={purchase} setPurchase={setPurchase} />}

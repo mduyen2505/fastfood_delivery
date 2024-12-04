@@ -123,10 +123,9 @@ const AccountDetails = () => {
       return;
     }
 
-    setError(""); // Xóa thông báo lỗi nếu hợp lệ
-    // Gửi yêu cầu cập nhật tài khoản lên server
+    setError(""); 
     updateUserData()
-    // console.log("Cập nhật tài khoản thành công!");
+  
 
   };
 

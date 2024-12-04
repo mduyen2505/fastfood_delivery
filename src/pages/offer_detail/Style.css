@@ -1,0 +1,94 @@
+/* Container for the coupon detail */
+.offer-detail-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Chiều cao toàn màn hình */
+    background-size: cover; /* Đảm bảo hình ảnh phủ kín khung */
+    background-position: center; /* Căn giữa hình ảnh */
+    background-repeat: no-repeat; /* Không lặp hình ảnh */
+    display: flex; /* Dùng flexbox để căn giữa nội dung */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    color: white; /* Đổi màu chữ thành trắng */
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Overlay for content */
+  .offer-detail-overlay {
+    background-color: rgba(0, 0, 0, 0.5); /* Lớp phủ tối để tăng độ tương phản */
+    padding: 50px 40px; /* Khoảng cách bên trong lớp phủ */
+    border-radius: 15px; /* Bo góc lớp phủ */
+    text-align: center; /* Canh giữa nội dung chữ */
+    width: 90%; /* Chiều ngang lớp phủ */
+    max-width: 700px; /* Giới hạn chiều ngang lớp phủ */
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 10px; /* Đổ bóng nhẹ */
+  }
+  
+  /* Heading styles */
+  h1 {
+    font-size: 30px;
+    margin-bottom: 15px;
+    font-weight: 700;
+  }
+  
+  h3 {
+    font-size: 40px;
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+  
+  p {
+    font-size: 20px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  /* Button for going back to offers list */
+  .back-button {
+    margin-top: 20px;
+    padding: 8px 20px;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  /* Hover effect on the back button */
+  .back-button:hover {
+    background-color: #cc0000;
+    transform: translateY(-2px);
+  }
+  
+  .back-button:active {
+    transform: translateY(1px);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .offer-detail-overlay {
+      padding: 15px;
+      width: 95%;
+    }
+  
+    h1 {
+      font-size: 24px;
+    }
+  
+    h3 {
+      font-size: 20px;
+    }
+  
+    p {
+      font-size: 16px;
+    }
+  
+    .back-button {
+      padding: 6px 15px;
+      font-size: 14px;
+    }
+  }
+  

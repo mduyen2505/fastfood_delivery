@@ -4,6 +4,7 @@
     background-color: #9c2121;
     z-index: 9999;
     position: relative;
+    margin-top: auto; 
 }
 
 .MainFooterContainer {

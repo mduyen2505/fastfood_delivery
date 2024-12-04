@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./Style.css";
-import OffersCards from "../../components/carouselOffers/OffersCards";
 import axios from "axios";
 
 const Home = () => {
@@ -18,13 +17,7 @@ const Home = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  return (
-    <div className="homeMainContianer">
-      <div className="offersDeals">KHUYẾN MÃI</div>
-
-      <OffersCards cardData={cardData} loading={loading} />
-    </div>
-  );
+  
 };
 
 export default Home;
