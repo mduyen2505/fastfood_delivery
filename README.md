@@ -23,4 +23,4 @@ The project is divided into two main components:
 For detailed setup and usage instructions, refer to the README files in the respective repositories.
 
 ## Contact
-For any questions, please contact [Your Email](mduyen.innovate@gmail.com).
+For any questions, please contact [My Email](mduyen.innovate@gmail.com).
